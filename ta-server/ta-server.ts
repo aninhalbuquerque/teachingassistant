@@ -26,7 +26,7 @@ taserver.post('/aluno', function (req: express.Request, res: express.Response) {
   var aluno: Aluno = <Aluno> req.body; //verificar se � mesmo Aluno!
   var ret = cadastro.cadastrar(aluno);
   if (ret === 'cpf' || ret === 'git') {
-    res.send({"failure": "O aluno n�o pode ser cadastrado", "err": ret});
+    res.send({"failure": "O aluno nao pode ser cadastrado", "err": ret});
   } else {
     res.send({"success": "O aluno foi cadastrado com sucesso"});
   } 
@@ -38,7 +38,7 @@ taserver.put('/aluno', function (req: express.Request, res: express.Response) {
   if (aluno) {
     res.send({"success": "O aluno foi atualizado com sucesso"});
   } else {
-    res.send({"failure": "O aluno n�o pode ser atualizado"});
+    res.send({"failure": "O aluno nao pode ser atualizado"});
   }
 })
 
@@ -49,10 +49,16 @@ taserver.delete('/aluno/:cpf', function (req: express.Request, res: express.Resp
   if (ret) {
     res.send({"success": "O aluno foi deletado com sucesso"});
   } else {
-    res.send({"failure": "O aluno n�o pode ser deletado"});
+    res.send({"failure": "O aluno nao pode ser deletado"});
   }
 })
 
-taserver.listen(3000, function () {
+var server = taserver.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
+
+function closeServer(): void {
+  server.close();
+}
+
+export { server, closeServer }

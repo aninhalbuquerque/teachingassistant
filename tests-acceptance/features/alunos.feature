@@ -7,3 +7,10 @@ Given I am at the students page
 Given I cannot see a student with CPF "683" in the students list
 When I try to register the student "Mari" with CPF "683"
 Then I can see "Mari" with CPF "683" in the students list
+
+
+Scenario: Deleting student
+Given I am at the students page
+Given I can see a student with CPF "685" in the students list
+When I try to delete the student with CPF "685"
+Then I cannot see the student with CPF "685" in the students list
