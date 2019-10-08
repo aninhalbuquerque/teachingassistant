@@ -8,6 +8,12 @@ let sameName = ((elem, name) => elem.element(by.name('nomelist')).getText().then
 
 let pAND = ((p,q) => p.then(a => q.then(b => a && b)))
 
+async function criarAluno(name, cpf) {
+    await $("input[name='namebox']").sendKeys(<string> name);
+    await $("input[name='cpfbox']").sendKeys(<string> cpf);
+    await element(by.buttonText('Adicionar')).click();
+}
+
 defineSupportCode(function ({ Given, When, Then }) {
     Given(/^I am at the students page$/, async () => {
         await browser.get("http://localhost:4200/");
@@ -23,9 +29,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     When(/^I try to register the student "([^\"]*)" with CPF "(\d*)"$/, async (name, cpf) => {
-        await $("input[name='namebox']").sendKeys(<string> name);
-        await $("input[name='cpfbox']").sendKeys(<string> cpf);
-        await element(by.buttonText('Adicionar')).click();
+        await criarAluno(name,cpf);
     });
 
     Then(/^I can see "([^\"]*)" with CPF "(\d*)" in the students list$/, async (name, cpf) => {
@@ -34,4 +38,21 @@ defineSupportCode(function ({ Given, When, Then }) {
                    (elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
     });
 
+    Given(/^I can see a student with CPF "(\d*)" in the students list$/, async (cpf) => {
+        await criarAluno("Clarissa",cpf);
+        var allalunos : ElementArrayFinder = element.all(by.name('alunolist'));
+        await allalunos.filter(elem => sameCPF(elem,cpf)).then
+                   (elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    });
+
+    Then(/^I cannot see "([^\"]*)" with CPF "(\d*)" in the students list$/, async (name, cpf) => {
+        var allcpfs : ElementArrayFinder = element.all(by.name('alunolist'));
+        var samecpfs = allcpfs.filter(elem => pAND(sameCPF(elem,cpf),sameName(elem,name)));
+        await samecpfs.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0));
+    });
+
+    Then(/^I can see an error message$/, async () => {
+        var allalunos : ElementArrayFinder = element.all(by.name('msgcpfexistente'));
+        await allalunos.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1));
+    });
 })
