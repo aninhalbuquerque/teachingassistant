@@ -23,13 +23,13 @@ taserver.get('/alunos', function (req: express.Request, res: express.Response) {
 })
 
 taserver.post('/aluno', function (req: express.Request, res: express.Response) {
-  var aluno: Aluno = <Aluno> req.body; //verificar se é mesmo Aluno!
-  aluno = cadastro.cadastrar(aluno);
-  if (aluno) {
-    res.send({"success": "O aluno foi cadastrado com sucesso"});
+  var aluno: Aluno = <Aluno> req.body; //verificar se ï¿½ mesmo Aluno!
+  var ret = cadastro.cadastrar(aluno);
+  if (ret === 'cpf' || ret === 'git') {
+    res.send({"failure": "O aluno nï¿½o pode ser cadastrado", "err": ret});
   } else {
-    res.send({"failure": "O aluno não pode ser cadastrado"});
-  }
+    res.send({"success": "O aluno foi cadastrado com sucesso"});
+  } 
 })
 
 taserver.put('/aluno', function (req: express.Request, res: express.Response) {
@@ -38,7 +38,18 @@ taserver.put('/aluno', function (req: express.Request, res: express.Response) {
   if (aluno) {
     res.send({"success": "O aluno foi atualizado com sucesso"});
   } else {
-    res.send({"failure": "O aluno não pode ser atualizado"});
+    res.send({"failure": "O aluno nï¿½o pode ser atualizado"});
+  }
+})
+
+taserver.delete('/aluno/:cpf', function (req: express.Request, res: express.Response) {
+  console.log('try');
+  var cpf: string = <string> req.params.cpf;
+  var ret = cadastro.deletar(cpf);
+  if (ret) {
+    res.send({"success": "O aluno foi deletado com sucesso"});
+  } else {
+    res.send({"failure": "O aluno nï¿½o pode ser deletado"});
   }
 })
 

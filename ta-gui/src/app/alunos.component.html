@@ -17,6 +17,13 @@
     <td><label>e-mail </label></td>
     <td><input [(ngModel)]="aluno.email" ></td>
  </tr>
+ <tr>
+   <td><label>Github </label></td>
+   <td><input [(ngModel)]="aluno.github" ></td>
+   <td *ngIf="gitduplicado">
+     Já existe um aluno com esse Github
+   </td>
+</tr>
  </table>
 
   <table>
@@ -24,11 +31,17 @@
     <th>Nome</th>
     <th>CPF</th>
     <th>e-mail</th>
+    <th>github</th>
+    <th *ngIf="errodelete">
+      Não foi possível deletar
+    </th>
  </tr>
  <tr *ngFor="let a of alunos">
     <td>{{a.nome}}</td>
     <td>{{a.cpf}}</td>
     <td>{{a.email}}</td>
+    <td>{{a.github}}</td>
+    <td><button (click)="deletarAluno(a)">Deletar</button></td>
  </tr>
  </table>
 

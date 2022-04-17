@@ -13,12 +13,20 @@ export class AlunoService {
 
   constructor(private http: HttpClient) {}
 
-  criar(aluno: Aluno): Observable<Aluno> {
+  criar(aluno: Aluno): Observable<any> {
     return this.http.post<any>(this.taURL + "/aluno", aluno, {headers: this.headers})
              .pipe( 
                 retry(2),
-                map( res => {if (res.success) {return aluno;} else {return null;}} )
+                map( res => {if (res.success) {return aluno;} else {return res.err;}} )
               ); 
+  }
+
+  deletar(aluno: Aluno) : Observable<any> {
+    return this.http.delete<any>(this.taURL + `/aluno/${aluno.cpf}`, {headers: this.headers})
+              .pipe( 
+                retry(2),
+                map( res => {if (res.success) {return aluno;} else {return null;}} )
+              );
   }
 
   atualizar(aluno: Aluno): Observable<Aluno> {
