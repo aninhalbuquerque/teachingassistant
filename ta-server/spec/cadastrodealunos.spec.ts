@@ -49,12 +49,17 @@ describe("O cadastro de alunos", () => {
     expect(aluno.nome).toBe("Mariana");
   })
 
-  /*it("deleta um aluno existente", () => {
+  it("deleta um aluno existente", () => {
     cadastrarAluno("Mariana","685");
 
     deletarAluno("685");
     expectNenhumAluno();
-  })*/
+  })
+
+  it("não deleta um cpf não existente", () => {
+    deletarAluno("685");
+    expectNenhumAluno();
+  })
 
 })
 
