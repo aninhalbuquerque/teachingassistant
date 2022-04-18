@@ -6,7 +6,7 @@ export class CadastroDeAlunos {
     cadastrar(aluno: Aluno): any {
       var result = null;
       if (this.cpfCadastrado(aluno.cpf)) return 'cpf';
-      if (this.gitCadastrado(aluno.github)) return 'git';
+      //if (this.gitCadastrado(aluno.github)) return 'git';
 
       result = new Aluno();
       result.copyFrom(aluno);

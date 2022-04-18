@@ -31,11 +31,7 @@ async function assertElementsWithSameCPF(n,cpf) {
 }
 
 defineSupportCode(function ({ Given, When, Then }) {
-    Given(/^I am at the students page$/, async () => {
-        await browser.get("http://localhost:4200/");
-        await expect(browser.getTitle()).to.eventually.equal('TaGui');
-        await $("a[name='alunos']").click();
-    })
+    
 
     Given(/^I cannot see a student with CPF "(\d*)" in the students list$/, async (cpf) => {
         await assertElementsWithSameCPF(0,cpf);
@@ -49,11 +45,6 @@ defineSupportCode(function ({ Given, When, Then }) {
         await assertElementsWithSameCPFAndName(1,cpf,name);
     });
 
-    Given(/^I can see a student with CPF "(\d*)" in the students list$/, async (cpf) => {
-        await criarAluno("Clarissa",cpf);
-        await assertElementsWithSameCPF(1,cpf); 
-    });
-
     Then(/^I cannot see "([^\"]*)" with CPF "(\d*)" in the students list$/, async (name, cpf) => {
         await assertElementsWithSameCPFAndName(0,cpf,name);
     });
@@ -61,5 +52,25 @@ defineSupportCode(function ({ Given, When, Then }) {
     Then(/^I can see an error message$/, async () => {
         var allmsgs : ElementArrayFinder = element.all(by.name('msgcpfexistente'));
         await assertTamanhoEqual(allmsgs,1);
+    });
+
+    Given(/^I am at the students page$/, async () => {
+        await browser.get("http://localhost:4200/");
+        await expect(browser.getTitle()).to.eventually.equal('TaGui');
+        await $("a[name='alunos']").click();
+    });
+
+    Given(/^I can see a student with CPF "(\d*)" in the students list$/, async (cpf) => {
+        await criarAluno("Clarissa",cpf);
+        await assertElementsWithSameCPF(1,cpf); 
+    });
+
+    When(/^I try to delete the student with CPF "(\d*)"$/, async (cpf) => {
+        const buttonName = "button[name='" + cpf + "']";
+        await $(buttonName).click();
+    });
+
+    Then(/^I cannot see the student with CPF "(\d*)" in the students list$/, async (cpf) => {
+        await assertElementsWithSameCPF(0,cpf);
     });
 })

@@ -9,7 +9,8 @@
         "noImplicitAny": false,
         "outDir": "compiledCode",
         "typeRoots": [ "./node_modules/@types" ],
-        "types": ["node","cucumber"]
+        "types": ["node","cucumber"],
+        "skipLibCheck": true
     },
     "exclude": [
         "node_modules",

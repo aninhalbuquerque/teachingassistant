@@ -9,7 +9,7 @@
  <tr>
     <td><label>CPF </label></td>
     <td><input [(ngModel)]="aluno.cpf" name="cpfbox"></td>
-    <td *ngIf="cpfduplicado">
+    <td *ngIf="cpfduplicado" name="msgcpfexistente">
       Já existe um aluno com esse CPF
     </td>
  </tr>
@@ -41,7 +41,7 @@
     <td name="cpflist">{{a.cpf}}</td>
     <td>{{a.email}}</td>
     <td>{{a.github}}</td>
-    <td><button (click)="deletarAluno(a)">Deletar</button></td>
+    <td><button name="{{a.cpf}}" (click)="deletarAluno(a)">Deletar</button></td>
  </tr>
  </table>
 
