@@ -53,6 +53,28 @@ describe("O servidor", () => {
               .catch(err => {
                  expect(err).toEqual(null)
               });
- })
+ });
+
+ it("deleta aluno existente", () => {
+   var aluno = {"json":{"nome": "Mari", "cpf" : "965", "email":""}};
+   var cpf = "965";
+   var resposta = '{"nome":"Mari","cpf":"965","email":"","metas":{}}';
+
+   return request.post(base_url + "aluno", aluno)
+            .then(body => {
+               expect(body).toEqual({success: "O aluno foi cadastrado com sucesso"});
+               return request.delete(base_url + `aluno/${cpf}`)
+                        .then(body => {
+                           expect(body).toEqual({success: "O aluno foi deletado com sucesso"});
+                           return request.get(base_url + "alunos")
+                                    .then(body => {
+                                       expect(body).not.toContain(resposta);
+                                     });
+                         });
+             })
+             .catch(err => {
+                expect(err).toEqual(null)
+             });
+});
 
 })
