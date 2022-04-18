@@ -11,17 +11,18 @@
   "author": "Paulo Borba",
   "license": "MIT",
   "dependencies": {
-    "@types/body-parser": "^1.16.5",
+    "express": "^4.15.4",
     "@types/express": "^4.0.37",
-    "@types/request-promise": "^4.1.48",
     "body-parser": "^1.18.2",
-    "express": "^4.15.4"
+    "@types/body-parser": "^1.16.5"
   },
   "devDependencies": {
+    "typescript": "~3.5.3",
+    "jasmine": "^2.8.0",
     "@types/jasmine": "^2.8.9",
     "jasmine-promises": "^0.4.1",
     "request": "^2.34",
     "request-promise": "^4.2.2",
-    "typescript": "^3.9.7"
+    "@types/request-promise": "^4.1.38"
   }
 }
