@@ -28,7 +28,7 @@ import { AlunoService } from './aluno.service';
                   } else {
                     this.alunos.push(ar);
                     this.aluno = new Aluno();
-                  } 
+                  }
                 },
                 msg => { alert(msg.message); }
               );

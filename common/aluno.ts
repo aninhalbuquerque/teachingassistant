@@ -3,7 +3,6 @@ export class Aluno {
   cpf: string;
   email: string;
   metas: Map<string,string>;
-  github: string;
 
   constructor() {
     this.clean();
@@ -14,7 +13,6 @@ export class Aluno {
     this.cpf = "";
     this.email = "";
     this.metas = new Map<string,string>();
-    this.github = "";
   }
 
   clone(): Aluno {
@@ -28,7 +26,6 @@ export class Aluno {
     this.cpf = from.cpf;
     this.email = from.email;
     this.copyMetasFrom(from.metas);
-    this.github = from.github;
   }
 
   copyMetasFrom(from: Map<string,string>): void {

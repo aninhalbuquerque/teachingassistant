@@ -14,6 +14,16 @@ describe("O cadastro de alunos", () => {
   function deletarAluno(cpf: string) {
     cadastro.deletar(cpf);
   }
+  
+  function atualizaAluno(nome?:string, cpf?:string, email?:string, metas?:Map<string,string>) {
+    var aluno: Aluno = new Aluno();
+    if (nome) aluno.nome = nome;
+    if (cpf) aluno.cpf = cpf;
+    if (email) aluno.email = email;
+    if (metas) aluno.metas = metas;
+
+    cadastro.atualizar(aluno);
+  }
 
   function expectSoUmAluno() {
     expect(cadastro.getAlunos().length).toBe(1);
@@ -59,6 +69,18 @@ describe("O cadastro de alunos", () => {
   it("não deleta um cpf não existente", () => {
     deletarAluno("685");
     expectNenhumAluno();
+  })
+  
+  it("cadastra e atualiza alunos corretamente", () => {
+    cadastrarAluno("Mariana","683");
+
+    atualizaAluno("Ana", "683", "alas3");
+
+    var aluno = expectSoUmAluno();
+    expect(aluno.nome).toBe("Ana");
+    expect(aluno.cpf).toBe("683");
+    expect(aluno.email).toBe("alas3");
+    expect(aluno.metas.size).toBe(0);
   })
 
 })
