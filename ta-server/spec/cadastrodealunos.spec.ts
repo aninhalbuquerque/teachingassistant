@@ -11,10 +11,18 @@ describe("O cadastro de alunos", () => {
     cadastro.cadastrar(aluno);
   }
 
+  function deletarAluno(cpf: string) {
+    cadastro.deletar(cpf);
+  }
+
   function expectSoUmAluno() {
     expect(cadastro.getAlunos().length).toBe(1);
     var aluno = cadastro.getAlunos()[0];
     return aluno;
+  }
+
+  function expectNenhumAluno() {
+    expect(cadastro.getAlunos().length).toBe(0);
   }
 
   beforeEach(() => cadastro = new CadastroDeAlunos())
@@ -40,6 +48,13 @@ describe("O cadastro de alunos", () => {
     var aluno = expectSoUmAluno();
     expect(aluno.nome).toBe("Mariana");
   })
+
+  /*it("deleta um aluno existente", () => {
+    cadastrarAluno("Mariana","685");
+
+    deletarAluno("685");
+    expectNenhumAluno();
+  })*/
 
 })
 

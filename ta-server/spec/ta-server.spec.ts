@@ -24,7 +24,7 @@ describe("O servidor", () => {
     var options:any = {method: 'POST', uri: (base_url + "aluno"), body:{name: "Mari", cpf: "962"}, json: true};
     return request(options)
              .then(body =>
-                expect(body).toEqual({failure: "O aluno não pode ser cadastrado"})
+                expect(body).toEqual({success: "O aluno foi cadastrado com sucesso"})
              ).catch(e =>
                 expect(e).toEqual(null)
              )
@@ -56,16 +56,17 @@ describe("O servidor", () => {
  });
 
  it("deleta aluno existente", () => {
-   var aluno = {"json":{"nome": "Mari", "cpf" : "965", "email":""}};
-   var cpf = "965";
-   var resposta = '{"nome":"Mari","cpf":"965","email":"","metas":{}}';
+   var aluno = {"json":{"nome": "Mari", "cpf" : "967", "email":""}};
+   var cpf = "967";
+   var resposta = '{"nome":"Mari","cpf":"967","email":"","metas":{}}';
 
    return request.post(base_url + "aluno", aluno)
             .then(body => {
                expect(body).toEqual({success: "O aluno foi cadastrado com sucesso"});
                return request.delete(base_url + `aluno/${cpf}`)
                         .then(body => {
-                           expect(body).toEqual({success: "O aluno foi deletado com sucesso"});
+                           expect(JSON.parse(body))
+                           .toEqual({success: "O aluno foi deletado com sucesso"});
                            return request.get(base_url + "alunos")
                                     .then(body => {
                                        expect(body).not.toContain(resposta);
@@ -75,6 +76,20 @@ describe("O servidor", () => {
              .catch(err => {
                 expect(err).toEqual(null)
              });
-});
+   });
+
+   it("não deleta cpf não existente", () => {
+      var cpf = "969";
+
+      return request.delete(base_url + `aluno/${cpf}`)
+         .then(body => {
+            expect(JSON.parse(body))
+            .toEqual({failure: "O aluno não pode ser deletado"});
+         })
+         .catch(err => {
+            expect(err).toEqual(null)
+         });
+
+   })
 
 })
